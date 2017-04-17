@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Sell
+{% endblock %}
+
+{% block main %}
+    <table class = "table table-striped">
+        <thead>
+            <tr>
+                <th>Symbol</th>
+                <th>Name</th>
+                <th>Shares</th>
+                <th>Price</th>
+                <th>TOTAL</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td colspan="4"></td>
+                <td><b>{{ grand_total }}</b></td>
+            </tr>
+        </tfoot>
+        <tbody>
+            {% set count = 0 %}
+            {% for info in stock_info %}
+                <tr>
+                    <td>{{ info["stock_symbol"] }}</td>
+                    <td>{{ info["stock_name"] }}</td>
+                    <td>{{ info["shares"] }}</td>
+                    <td>{{ prices[count] }}</td>
+                    <td>{{ total_money[count] }}</td>
+                    {% set count = count + 1 %}
+                </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="4">CASH</td>
+                <td>{{ user_cash }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <form action="{{ url_for('sell') }}" method="post">
+        <fieldset>
+            <div class="form-group">
+                <input autocomplete="off" autofocus class="form-control" name="sell_stock" placeholder="Stock Symbol" type="text"/>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-default" type="submit">Sell</button>
+            </div>
+        </fieldset>
+    </form>
+    
+    <p>
+        <font size="+2" color = "#ea433b">
+            Warning: Clicking on sell will immediately sell ALL shares of the selected stock.
+        </font>
+    </p>
+{% endblock %}
